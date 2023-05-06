@@ -17,10 +17,17 @@ export default function TextForm(props) {
 
     return (
         <>
-            <h1>{props.heading}</h1>
-            <div className="mb-3">
-                <textarea className="form-control" id="mybox" rows="10" value={text} onChange={handleonchange}></textarea>
-                <button className="btn btn-primary my-3" onClick={handleupclick}>convert to uppercase</button>
+            <div className="container">
+                <h1>{props.heading}</h1>
+                <div className="mb-3">
+                    <textarea className="form-control" id="mybox" rows="10" value={text} onChange={handleonchange}></textarea>
+                    <button className="btn btn-primary my-3" onClick={handleupclick}>convert to uppercase</button>
+                </div>
+            </div>
+
+            <div className="container my-3">
+                <h1>your text summery</h1>
+                <p>{text.split(" ").length} words and {text.length} characters</p>
             </div>
         </>
     )
