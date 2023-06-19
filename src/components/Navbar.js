@@ -4,8 +4,8 @@ export class Navbar extends Component {
     render() {
         return (
             <>
-                <nav className="navbar navbar-expand-lg bg-body-tertiary">
-                    <div className="container-fluid">
+                <nav className="navbar bg-dark navbar-expand-lg border-bottom border-bottom-dark" data-bs-theme="dark">
+                          <div className="container-fluid">
                         <a className="navbar-brand" >NewsMonkey</a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
@@ -15,12 +15,16 @@ export class Navbar extends Component {
                                 <li className="nav-item">
                                     <a className="nav-link active" aria-current="page" >Home</a>
                                 </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" >About</a>
-                                </li>
-                               
-                            </ul>
-                        
+                                <li className="nav-item"><a className="nav-link" >About</a></li>
+                                <li className="nav-item"><a className="nav-link" >business</a></li>
+                                <li className="nav-item"><a className="nav-link" >entertainment</a></li>
+                                <li className="nav-item"><a className="nav-link" >general</a></li>
+                                <li className="nav-item"><a className="nav-link" >helth</a></li>
+                                <li className="nav-item"><a className="nav-link" >science</a></li>
+                                <li className="nav-item"><a className="nav-link" >sports</a></li>
+                                <li className="nav-item"><a className="nav-link" >technology</a></li>
+                              </ul>
+                            
                         </div>
                     </div>
                 </nav>

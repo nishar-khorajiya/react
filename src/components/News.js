@@ -1,75 +1,94 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+import Spin from './Spin'
+import propTypes from 'prop-types'
 
 export class News extends Component {
-  articles = [
-    {
-      "source": {
-        "id": "bbc-sport",
-        "name": "BBC Sport"
-      },
-      "author": null,
-      "title": "'England land early punches against cagey Australia'",
-      "description": "The opening day of the Ashes was a clash of styles hinting at an instant classic of a series, says chief cricket writer Stephan Shemilt.",
-      "url": "http://www.bbc.co.uk/sport/cricket/65930121",
-      "urlToImage": "https://ichef.bbci.co.uk/live-experience/cps/624/cpsprodpb/123F/production/_130117640_gettyimages-1499006946.jpg",
-      "publishedAt": "2023-06-16T21:22:17.6686948Z",
-      "content": "Just as Jonny Bairstow was finishing speaking to the media at the end of an enthralling opening day of the Ashes series, he was interrupted by a voice coming over the speakers.\r\n\"Attention, please. A… [+6845 chars]"
-    },
-    {
-      "source": {
-        "id": "espn-cric-info",
-        "name": "ESPN Cric Info"
-      },
-      "author": null,
-      "title": "PCB hands Umar Akmal three-year ban from all cricket | ESPNcricinfo.com",
-      "description": "Penalty after the batsman pleaded guilty to not reporting corrupt approaches | ESPNcricinfo.com",
-      "url": "http://www.espncricinfo.com/story/_/id/29103103/pcb-hands-umar-akmal-three-year-ban-all-cricket",
-      "urlToImage": "https://a4.espncdn.com/combiner/i?img=%2Fi%2Fcricket%2Fcricinfo%2F1099495_800x450.jpg",
-      "publishedAt": "2020-04-27T11:41:47Z",
-      "content": "Umar Akmal's troubled cricket career has hit its biggest roadblock yet, with the PCB handing him a ban from all representative cricket for three years after he pleaded guilty of failing to report det… [+1506 chars]"
-    },
-    {
-      "source": {
-        "id": "espn-cric-info",
-        "name": "ESPN Cric Info"
-      },
-      "author": null,
-      "title": "What we learned from watching the 1992 World Cup final in full again | ESPNcricinfo.com",
-      "description": "Wides, lbw calls, swing - plenty of things were different in white-ball cricket back then | ESPNcricinfo.com",
-      "url": "http://www.espncricinfo.com/story/_/id/28970907/learned-watching-1992-world-cup-final-full-again",
-      "urlToImage": "https://a4.espncdn.com/combiner/i?img=%2Fi%2Fcricket%2Fcricinfo%2F1219926_1296x729.jpg",
-      "publishedAt": "2020-03-30T15:26:05Z",
-      "content": "Last week, we at ESPNcricinfo did something we have been thinking of doing for eight years now: pretend-live ball-by-ball commentary for a classic cricket match. We knew the result, yes, but we tried… [+6823 chars]"
-    }
-  ]
+
+  static defaultProps = {
+    country: 'in',
+    pageSize: 8,
+    category:'general'
+  }
+
+  static propTypes = {
+    country: propTypes.string,
+    category: propTypes.string,
+    pageSize: propTypes.number
+  }
+
   constructor() {
     super();
-    console.log("hello i am constructor")
     this.state = {
-      articles: this.articles
+      articles: [],
+      page: 1,
+      loading: true
     }
+  }
+
+  async componentDidMount() {
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a01dd55ba1f94dfb80d92974d6b46987&page=1&pageSize=${this.props.pageSize}`
+    { this.setState({ loading: true }) }
+    let data = await fetch(url);
+    let parseddata = await data.json();
+    console.log(parseddata)
+    this.setState({ articles: parseddata.articles, totalResults: parseddata.totalResults, loading: false })
+  }
+
+  handleNextclick = async () => {
+
+    if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)) {
+
+    }
+    else {
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a01dd55ba1f94dfb80d92974d6b46987&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`
+      { this.setState({ loading: true }) }
+      let data = await fetch(url);
+      let parseddata = await data.json();
+      console.log(parseddata)
+      // this.setState({ articles: parseddata.articles })
+
+      this.setState({
+        page: this.state.page + 1,
+        articles: parseddata.articles,
+        loading: false
+      })
+    }
+  }
+
+  handlePreclick = async () => {
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a01dd55ba1f94dfb80d92974d6b46987&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`
+    { this.setState({ loading: true }) }
+    let data = await fetch(url);
+    let parseddata = await data.json();
+    console.log(parseddata)
+    // this.setState({ articles: parseddata.articles })
+
+    this.setState({
+      page: this.state.page - 1,
+      articles: parseddata.articles,
+      loading: false
+    })
   }
   render() {
     return (
       <>
+        <h2 className='text-center my-3'>NewsMonkey - top headlines</h2>
+        {this.state.loading && <Spin />}
         <div className="container" >
-          <h2>NewsMonkey - top headlines</h2>
           <div className="row">
-          {this.state.articles.map((element) => {
-             return <div className="col-md-4" key={element.url}>
-             <NewsItem title={element.title.slice(0,45)} description={element.description.slice(0,90)} imgurl={element.urlToImage} newsurl={element.url}/>
-           </div>
-          })}
-        
-          
-            {/* <div className="col-md-4">
-              <NewsItem title="mytitle" description="mydesc" />
-            </div>
-            <div className="col-md-4">
-              <NewsItem title="mytitle" description="mydesc" />
-            </div> */}
+            {!this.state.loading && this.state.articles.map((element) => {
+              return <div className="col-md-4" key={element.url}>
+                <NewsItem title={element.title ? element.title.slice(0, 45) : " "} description={element.description ? element.description.slice(0, 90) : " "} imgurl={element.urlToImage} newsurl={element.url} />
+              </div>
+            })}
+
           </div>
+        </div>
+
+        <div className="container d-flex justify-content-between ">
+          <button disabled={this.state.page <= 1} type="button" className="btn btn-warning" onClick={this.handlePreclick}>&larr; Previous</button>
+          <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} type="button" className="btn btn-warning" onClick={this.handleNextclick}>Next &rarr;</button>
         </div>
       </>
     )
