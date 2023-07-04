@@ -19,13 +19,13 @@ export class Navbar extends Component {
                                     <Link className="nav-link active" aria-current="page" to='/'>Home</Link>
                                 </li>
                                 {/* <li className="nav-item"><Link className="nav-link" to={} >About</Link></li> */}
-                                <li exect="true" className="nav-item"><Link className="nav-link" to='/business'>business</Link></li>
-                                <li exect="true" className="nav-item"><Link className="nav-link" to='/entertainment' >entertainment</Link></li>
-                                <li exect="true" className="nav-item"><Link className="nav-link" to='/general'>general</Link></li>
-                                <li exect="true" className="nav-item"><Link className="nav-link" to='/health'>health</Link></li>
-                                <li exect="true" className="nav-item"><Link className="nav-link" to='/science'>science</Link></li>
-                                <li exect="true" className="nav-item"><Link className="nav-link" to='/sports'>sports</Link></li>
-                                <li exect="true" className="nav-item"><Link className="nav-link" to='/technology'>technology</Link></li>
+                                <li exect="true" className="nav-item"><Link className="nav-link" to='/business'>Business</Link></li>
+                                <li exect="true" className="nav-item"><Link className="nav-link" to='/entertainment' >Entertainment</Link></li>
+                                <li exect="true" className="nav-item"><Link className="nav-link" to='/general'>General</Link></li>
+                                <li exect="true" className="nav-item"><Link className="nav-link" to='/health'>Health</Link></li>
+                                <li exect="true" className="nav-item"><Link className="nav-link" to='/science'>Science</Link></li>
+                                <li exect="true" className="nav-item"><Link className="nav-link" to='/sports'>Sports</Link></li>
+                                <li exect="true" className="nav-item"><Link className="nav-link" to='/technology'>Technology</Link></li>
                               </ul>
                             
                         </div>
